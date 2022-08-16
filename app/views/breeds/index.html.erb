@@ -1,0 +1,20 @@
+<h1>Breeds#index</h1>
+
+<%= form_tag(breeds_path, method: "get", id: "search-breed") do %>
+  <%= label_tag(:search_term, "Search Breeds:") %>
+  <%= text_field_tag(:search_term) %>
+<% end %>
+
+<% @breeds.each do |breed| %>
+  <%= turbo_frame_tag dom_id(breed) do %>
+    <h3>
+      <%= breed.name %>
+    </h3>
+    <p>
+    Cats of this breed: <%= breed.cats.size %>
+    </p>
+    <% if logged_in? %>
+      <%= button_to "Destroy", destroy_breed_path(id: breed.id), method: :delete %>
+    <% end %>
+  <% end %>
+<% end %>

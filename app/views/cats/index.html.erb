@@ -1,0 +1,21 @@
+<h1>Cats#index</h1>
+
+<%= turbo_frame_tag "cats_frame" do %>
+  <% @cats.each do |cat| %>
+    <%= turbo_frame_tag dom_id(cat) do %>
+      <div>
+        <p>
+          <%= link_to cat.breed.name,
+            cats_path(breed_name: cat.breed.name),
+            data: { turbo_frame: "cats_frame" }
+          %>
+        </p>
+        <%= image_tag cat.url, size: "180x250", id: cat.id %>
+
+        <% if logged_in? %>
+          <%= button_to "Destroy", destroy_cat_path(id: cat.id), method: :delete %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
