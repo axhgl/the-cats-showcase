@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  app:
+    image: oddcamp/ocde:1.2.0
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:password@postgres:5432
+    volumes:
+      - ../.:/workspace:cached
+      - node-modules:/workspace/node_modules
+      - tmp:/workspace/tmp
+      - asdf-data:/home/oddcamp/.asdf/data
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  postgres:
+    image: postgres:14-alpine
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: password
+
+  adminer:
+    image: adminer:latest
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+
+volumes:
+  pg-data:
+  node-modules:
+  tmp:
+  asdf-data:
